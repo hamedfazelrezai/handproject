@@ -3,8 +3,34 @@
   <head>
     <meta charset="utf-8">
     <title>HandProject</title>
+    <style media="screen">
+      #video {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
-    Hello
+    <video id="video" autoplay></video>
+
+    <script type="text/javascript">
+      (function () {
+        var video = document.getElementById("video");
+        var vendorURL = window.URL || window.webkitURL;
+        navigator.getMedia =  navigator.getUserMedia ||
+                              navigator.webkitGetUserMedia ||
+                              navigator.mozGetUserMedia ||
+                              navigator.msGetUserMedia;
+        navigator.getMedia({
+          video: true,
+          audio: false
+        }, function (stream) {
+          video.src = vendorURL.createObjectURL(stream);
+          video.play();
+        }, function (error) {
+          // error
+        });
+      })();
+    </script>
   </body>
 </html>

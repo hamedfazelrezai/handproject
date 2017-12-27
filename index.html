@@ -3,81 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>HandProject</title>
-    <style media="screen">
-      body {
-        background-color: #000000;
-        margin: 0;
-        overflow: hidden;
-      }
-      
-      #video {
-        display: none;
-      }
-      
-      #container {
-        height: 100vh;
-        display: flex;
-        align-items: center; 
-        justify-content: center;
-      }
-      
-      #canvas {
-        margin: 0 auto;
-      }
-    </style>
+    <link rel="stylesheet" href="/index.css">
   </head>
   <body>
     <video id="video" autoplay></video>
     <div id="container">
-      <canvas id="canvas" width="800px" height="600px"></canvas>      
+      <canvas id="canvas"></canvas>
+      <script src="/index.js"></script>
     </div>
-
-    <script type="text/javascript">
-      (function () {
-        var video = document.getElementById("video");
-        var canvas = document.getElementById("canvas");
-        var context = canvas.getContext('2d');
-        var vendorURL = window.URL || window.webkitURL;
-        navigator.getMedia =  navigator.getUserMedia ||
-                              navigator.webkitGetUserMedia ||
-                              navigator.mozGetUserMedia ||
-                              navigator.msGetUserMedia;
-        navigator.getMedia({
-          video: true,
-          audio: false
-        }, function (stream) {
-          video.src = vendorURL.createObjectURL(stream);
-          video.play();
-        }, function (error) {
-          // Error. Sorry but there was an error
-        });
-                
-        video.addEventListener('play', function () {
-          draw(this, context);
-        }, false);
-        
-        function setDimensions () {
-          var W = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-          var H = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-          canvas.height = H;
-          canvas.width = H / video.videoHeight * video.videoWidth;
-          if (W / H > video.videoWidth / video.videoHeight) {
-            // screen is wider than video
-            canvas.height = H;
-            canvas.width = H / video.videoHeight * video.videoWidth;
-          } else {
-            // screen is higher than video
-            canvas.width = W;
-            canvas.height = W / video.videoWidth * video.videoHeight;
-          }
-        }
-        
-        function draw (video, context) {
-          setDimensions();
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          setTimeout(draw, 10, video, context);
-        }
-      })();
-    </script>
   </body>
 </html>
